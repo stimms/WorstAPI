@@ -38,7 +38,7 @@ app.MapPost("/weatherdates", () =>
 
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
-    return new WeatherForecast(forecastDate, "100", "Weather was jolly hot");
+    return new WeatherForecast(forecastDate, "One hundred degrees, give or take a bit", "Weather was jolly hot");
 });
 
 app.Run();
