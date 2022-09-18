@@ -38,12 +38,12 @@ app.MapPost("/weatherdates", () =>
 
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
-    return new WeatherForecast(forecastDate, 100, "Weather was jolly hot");
+    return new WeatherForecast(forecastDate, "100", "Weather was jolly hot");
 });
 
 app.Run();
 
-internal record WeatherForecast(DateTime date, int temperature, string? summary)
+internal record WeatherForecast(DateTime date, string temperature, string? summary)
 {
     
 }
