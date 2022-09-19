@@ -1,9 +1,18 @@
+using Microsoft.AspNetCore.Http.Json;
+using System.ComponentModel;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new APIDemo.DateTimeConverter());
+});
 
 var app = builder.Build();
 
@@ -38,12 +47,17 @@ app.MapPost("/weatherdates", () =>
 
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
-    return new WeatherForecast(forecastDate, "One hundred degrees, give or take a bit", "Weather was jolly hot");
+    return new WeatherForecast(
+        forecastDate, 
+        new DateTime(2001, 1, 1), 
+        "One hundred degrees, give or take a bit", 
+        "Weather was jolly hot");
 });
 
 app.Run();
 
-internal record WeatherForecast(DateTime date, string temperature, string? summary)
+internal record WeatherForecast(DateTime date, DateTime dateOfPreviousHighTemperature, string temperature, string? summary)
 {
-    
+
 }
+ 
