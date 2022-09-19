@@ -16,6 +16,6 @@ namespace APIDemo
            DateTime dateTimeValue,
            JsonSerializerOptions options) =>
                writer.WriteStringValue(dateTimeValue.ToString(
-                   "MM/dd/yyyy", CultureInfo.InvariantCulture));
+                   "MM/dd/yyyy H:mm zzz", CultureInfo.InvariantCulture));
     }
 }
