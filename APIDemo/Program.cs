@@ -47,11 +47,11 @@ app.MapPost("/weatherdates", () =>
 
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
-    return new WeatherForecast(
+    return new Envelope(new WeatherForecast(
         forecastDate, 
         new DateTime(2001, 1, 1), 
         "One hundred degrees, give or take a bit", 
-        "Weather was jolly hot");
+        "Weather was jolly hot"));
 });
 
 app.Run();
@@ -61,3 +61,4 @@ internal record WeatherForecast(DateTime date, DateTime dateOfPreviousHighTemper
 
 }
  
+internal record Envelope(WeatherForecast data);
