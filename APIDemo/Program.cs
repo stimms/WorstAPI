@@ -47,18 +47,34 @@ app.MapPost("/weatherdates", () =>
 
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
+    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(SunData));
+    var writer = new StringWriter();
+    serializer.Serialize(writer, new SunData { SunRise = "6:45", SunSet = "11:15" });
+
     return new Envelope(new WeatherForecast[] {new WeatherForecast(
         forecastDate,
         new DateTime(2001, 1, 1),
         "One hundred degrees, give or take a bit",
-        "Weather was jolly hot")});
+        "Weather was jolly hot",
+         writer.ToString())
+        });
 });
 
 app.Run();
 
-internal record WeatherForecast(DateTime date, DateTime dateOfPreviousHighTemperature, string temperature, string? summary)
+internal record WeatherForecast(DateTime date,
+    DateTime dateOfPreviousHighTemperature,
+    string temperature,
+    string? summary,
+    string sun_data)
 {
 
+}
+
+public class SunData
+{
+    public String? SunRise { get; set; }
+    public String? SunSet { get; set; }
 }
 
 internal record Envelope(WeatherForecast[] data);
