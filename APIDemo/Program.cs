@@ -48,7 +48,9 @@ app.MapPost("/weatherdates", () =>
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
     if (!datesWithWeather.Contains(forecastDate))
-        return new Envelope(error: true, message: "The given date is not a permitted one");
+        return new Envelope(
+            error: true, 
+            message: "Unable to commit transactional data due to an easy to resolve error - which we'll leave up to you to figure out");
     System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(SunData));
     var writer = new StringWriter();
     serializer.Serialize(writer, new SunData { SunRise = "6:45", SunSet = "11:15" });
