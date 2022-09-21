@@ -25,6 +25,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+Dictionary<Guid, IEnumerable<DateTime>> requests = new();
+
 var datesWithWeather = new List<DateTime>
 {
     new DateTime(2022, 1, 1),
@@ -42,8 +44,15 @@ var datesWithWeather = new List<DateTime>
 
 app.MapPost("/weatherdates", () =>
 {
-    return datesWithWeather;
+    var id = Guid.NewGuid();
+    requests.Add(id, datesWithWeather);
+    return new AsyncWeatherDatesEnvelope(id);
 });
+
+
+app.MapGet("/weatherdates/{id}", (Guid id) => 
+    requests[id]
+);
 
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
@@ -80,5 +89,7 @@ public class SunData
     public String? SunRise { get; set; }
     public String? SunSet { get; set; }
 }
+
+record AsyncWeatherDatesEnvelope(Guid identifier);
 
 internal record Envelope(WeatherForecast[]? data = null, bool? error = null, string? message = null);
