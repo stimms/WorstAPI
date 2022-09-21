@@ -47,6 +47,8 @@ app.MapPost("/weatherdates", () =>
 
 app.MapPut("/weather/on/date", (DateTime forecastDate) =>
 {
+    if (!datesWithWeather.Contains(forecastDate))
+        return new Envelope(error: true, message: "The given date is not a permitted one");
     System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(SunData));
     var writer = new StringWriter();
     serializer.Serialize(writer, new SunData { SunRise = "6:45", SunSet = "11:15" });
@@ -56,7 +58,7 @@ app.MapPut("/weather/on/date", (DateTime forecastDate) =>
         new DateTime(2001, 1, 1),
         "One hundred degrees, give or take a bit",
         "Weather was jolly hot",
-         writer.ToString())
+         writer.ToString()),
         });
 });
 
@@ -77,4 +79,4 @@ public class SunData
     public String? SunSet { get; set; }
 }
 
-internal record Envelope(WeatherForecast[] data);
+internal record Envelope(WeatherForecast[]? data = null, bool? error = null, string? message = null);
