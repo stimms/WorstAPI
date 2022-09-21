@@ -69,7 +69,8 @@ app.MapPut("/api/detailsservice/weather/on/date", (DateTime forecastDate) =>
         new DateTime(2001, 1, 1),
         "One hundred degrees, give or take a bit",
         "Weather was jolly hot",
-         writer.ToString()),
+         writer.ToString(),
+         true)
         });
 });
 
@@ -79,7 +80,8 @@ internal record WeatherForecast(DateTime date,
     DateTime dateOfPreviousHighTemperature,
     string temperature,
     string? summary,
-    string sun_data)
+    string sun_data,
+    bool did_not_not_rain)
 {
 
 }
