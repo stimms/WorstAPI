@@ -42,7 +42,7 @@ var datesWithWeather = new List<DateTime>
 };
 
 
-app.MapPost("/weatherdates", () =>
+app.MapPost("/api/datesservice/weatherdates", () =>
 {
     var id = Guid.NewGuid();
     requests.Add(id, datesWithWeather);
@@ -50,11 +50,11 @@ app.MapPost("/weatherdates", () =>
 });
 
 
-app.MapGet("/weatherdates/{id}", (Guid id) => 
+app.MapGet("/api/datesservice/weatherdates/{id}", (Guid id) => 
     requests[id]
 );
 
-app.MapPut("/weather/on/date", (DateTime forecastDate) =>
+app.MapPut("/api/detailsservice/weather/on/date", (DateTime forecastDate) =>
 {
     if (!datesWithWeather.Contains(forecastDate))
         return new Envelope(
