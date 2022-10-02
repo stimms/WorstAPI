@@ -51,6 +51,7 @@ app.MapGet("/api/datesservice/weatherdates/{id}", (Guid id) =>
 
 app.MapPut("/api/detailsservice/weather/on/date", (DateTime forecastDate) =>
 {
+    Thread.Sleep(10000);
     if (!datesWithWeather.Contains(forecastDate))
         return new Envelope(
             error: true, 
